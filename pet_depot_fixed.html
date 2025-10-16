@@ -106,6 +106,7 @@
         </main>
     </div>
 </body>
+<script src="products.js"></script>
 <script type="text/javascript">
     var webstore = new Vue({
         el: '#app',
@@ -120,6 +121,8 @@
                 availableInventory: 10, // was '5'
                 rating: 3
             },
+            // make the external products array available to Vue
+            products: products,
             cart: [],
             showProduct: true,
             order: {
