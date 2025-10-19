@@ -20,21 +20,21 @@
         <main>
             <div v-if='showProduct'>
                 <div class="products">
-                    <article class="product" v-for="p in products" :key="p.id">
+                    <article class="product" v-for="product in products" :key="product.id">
                         <figure>
-                            <img :src="p.image" :alt="p.title">
+                            <img :src="product.image" :alt="product.title">
                         </figure>
-                        <h2>{{ p.title }}</h2>
-                        <p v-html="p.description"></p>
-                        <p>Price: {{ p.price }}</p>
+                        <h2>{{ product.title }}</h2>
+                        <p v-html="product.description"></p>
+                        <p>Price: {{ product.price }}</p>
                         <div class="rating">
-                            <i v-for="n in p.rating" class="fa-solid fa-star"></i>
-                            <i v-for="n in 5 - p.rating" class="fa-regular fa-star"></i>
+                            <i v-for="n in product.rating" class="fa-solid fa-star"></i>
+                            <i v-for="n in 5 - product.rating" class="fa-regular fa-star"></i>
                         </div>
-                        <span v-if="itemsLeftFor(p) === 0">All out!</span>
-                        <span v-else-if="itemsLeftFor(p) < 5">Only {{ itemsLeftFor(p) }} left!</span>
+                        <span v-if="itemsLeftFor(product) === 0">All out!</span>
+                        <span v-else-if="itemsLeftFor(product) < 5">Only {{ itemsLeftFor(product) }} left!</span>
                         <span v-else>Buy now!</span>
-                        <button @click="addToCart(p)" v-if="canAddToCart(p)">Add to cart</button>
+                        <button @click="addToCart(product)" v-if="canAddToCart(product)">Add to cart</button>
                         <button disabled v-else>Add to cart</button>
                     </article>
                 </div>
@@ -150,14 +150,14 @@
             },
             submitForm() { alert('Order submitted!') },
             // helper to count how many of a product are in the cart
-            countInCart: function (productId) {
+            cartCount: function (productId) {
                 return this.cart.filter(id => id === productId).length;
             },
             itemsLeftFor: function (product) {
-                return Math.max(0, product.availableInventory - this.countInCart(product.id));
+                return Math.max(0, product.availableInventory - this.cartCount(product.id));
             },
             canAddToCart: function (product) {
-                return product.availableInventory > this.countInCart(product.id);
+                return product.availableInventory > this.cartCount(product.id);
             }
         },
         computed: {
