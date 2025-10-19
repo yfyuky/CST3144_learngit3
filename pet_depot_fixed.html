@@ -34,7 +34,7 @@
                         <span v-if="itemsLeftFor(product) === 0">All out!</span>
                         <span v-else-if="itemsLeftFor(product) < 5">Only {{ itemsLeftFor(product) }} left!</span>
                         <span v-else>Buy now!</span>
-                        <button @click="addToCart(product)" v-if="canAddToCart(product)">Add to cart</button>
+                        <button v-on:click='addToCart(product)' v-if='canAddToCart(product)'> Add to cart</button>
                         <button disabled v-else>Add to cart</button>
                     </article>
                 </div>
@@ -150,8 +150,14 @@
             },
             submitForm() { alert('Order submitted!') },
             // helper to count how many of a product are in the cart
-            cartCount: function (productId) {
-                return this.cart.filter(id => id === productId).length;
+            cartCount: function (id) {
+                let count = 0;
+                for (let i = 0; i < this.cart.length; i++) {
+                    if (this.cart[i] === id) {
+                        count++;
+                    }
+                }
+                return count;
             },
             itemsLeftFor: function (product) {
                 return Math.max(0, product.availableInventory - this.cartCount(product.id));
